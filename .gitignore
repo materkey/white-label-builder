@@ -1,0 +1,17 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+
+# Misc related to npm and webpack
+node_modules
+build
+dist
+webpack-stats.json
+
+.idea/
+
+build/
+
+white-label/
+env/
+django.conf

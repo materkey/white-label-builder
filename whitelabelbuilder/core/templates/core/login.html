@@ -1,0 +1,20 @@
+{% load render_bundle from webpack_loader %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Login</title>
+</head>
+<body>
+
+<a href="{% url "social:begin" "vk-oauth2" %}">VK AUTH</a>
+<div id="world"></div>
+{#{% render_bundle 'app' 'js' %}#}
+{% if user.is_authenticated %}
+    <p>
+    current user - <a href="{% url "core:cabinet" %}">{{ user.username }}</a> (<a href="{% url "core:logout" %}">logout</a>)
+    </p>
+{% endif %}
+
+</body>
+</html>

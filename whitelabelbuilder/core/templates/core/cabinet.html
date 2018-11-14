@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Cabinet</title>
+</head>
+<body>
+{
+{% if user.is_authenticated %}
+    <p>
+        {{ user.username }} cabinet (currently logged in)
+        <br>
+        <a href="{% url "core:logout" %}">logout</a>
+        <br>
+        <a href="/api/v1/">api</a>
+        <br>
+        <a href="/admin/">admin page</a>
+        {#    <a href="{% url "social" %}">logout</a>#}
+    </p>
+{% endif %}
+
+</body>
+</html>
