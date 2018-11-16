@@ -24,8 +24,6 @@ export const loadTasks = (url) => {
                     payload: (action, state, res) => {
                         return getJSON(res).then(
                             (json) => {
-                                console.log(json)
-                                console.log(normalize(json, [task]))
                                 return Object.assign({}, normalize(json, [task]));
                             },
                         );

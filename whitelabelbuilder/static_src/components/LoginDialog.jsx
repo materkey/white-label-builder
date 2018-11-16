@@ -2,7 +2,7 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import {withStyles} from '@material-ui/core/styles';
+import { withStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import Avatar from '@material-ui/core/Avatar';
 import List from '@material-ui/core/List';
@@ -13,10 +13,10 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import Dialog from '@material-ui/core/Dialog';
 import blue from '@material-ui/core/colors/blue';
 import vkLogo from '../../static/vk_icon.svg';
-import {Link} from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 const methods = [
-    {name: 'Войти через ВКонтакте', logo: vkLogo, url: '/social/login/vk-oauth2/'},
+    { name: 'Войти через ВКонтакте', logo: vkLogo, url: '/social/login/vk-oauth2/' },
 ];
 const styles = {
     avatar: {
@@ -38,25 +38,24 @@ class SimpleDialog extends React.Component {
         const {
             classes, onClose, selectedValue, ...other
         } = this.props;
-
+        const i = 0;
         return (
-            <Dialog onClose={this.handleClose} aria-labelledby="simple-dialog-title" {...other}>
+            <Dialog onClose={ this.handleClose } aria-labelledby="simple-dialog-title" { ...other }>
                 <DialogTitle id="simple-dialog-title">Логин</DialogTitle>
                 <div>
                     <List>
                         {methods.map(method => (
-                            <Link to={method.url} style={{textDecoration: 'none'}}>
+                            <Button key={ method.name } href="/social/login/vk-oauth2/">
                                 <ListItem
                                     button
-                                    onClick={() => this.handleListItemClick(method)}
-                                    key={method.name}
+                                    onClick={ () => this.handleListItemClick(method) }
                                 >
                                     <ListItemAvatar>
-                                        <Avatar src={method.logo}/>
+                                        <Avatar src={ method.logo } />
                                     </ListItemAvatar>
-                                    <ListItemText primary={method.name}/>
+                                    <ListItemText primary={ method.name } />
                                 </ListItem>
-                            </Link>
+                            </Button>
                         ))}
                     </List>
                 </div>
@@ -86,21 +85,21 @@ class SimpleDialogDemo extends React.Component {
     };
 
     handleClose = (value) => {
-        this.setState({open: false});
+        this.setState({ open: false });
     };
 
     render() {
         return (
             <div>
                 <Button
-                    onClick={this.handleClickOpen}
+                    onClick={ this.handleClickOpen }
                     color="inherit"
                 >Войти
                 </Button>
                 <SimpleDialogWrapped
-                    selectedValue={this.state.selectedValue}
-                    open={this.state.open}
-                    onClose={this.handleClose}
+                    selectedValue={ this.state.selectedValue }
+                    open={ this.state.open }
+                    onClose={ this.handleClose }
                 />
             </div>
         );

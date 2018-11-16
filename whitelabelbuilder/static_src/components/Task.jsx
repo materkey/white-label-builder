@@ -1,15 +1,17 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {withStyles} from '@material-ui/core/styles';
+import { withStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
-import {connect} from 'react-redux';
+import { connect } from 'react-redux';
+import { getAbsoluteUrl } from '../utils/absolute';
 // import ShowTask from './TaskDetails';
 import Loader from './Loader';
+var QRCode = require('qrcode.react');
 
 const styles = {
     card: {
@@ -20,6 +22,10 @@ const styles = {
     media: {
         height: 345,
         paddingTop: '15%', // 16:9
+    },
+    center: {
+        marginLeft: "auto",
+        marginRight: "auto"
     },
 };
 
@@ -51,15 +57,18 @@ class Task extends React.Component {
         //     lecturers = this.props.lecturers.map(item => <Lecturer key={item} id={item}/>);
         // }
         const isSuccessful = this.props.is_successful;
+        let absoluteApkUrl = getAbsoluteUrl(this.props.url)
 
         return (
             <div>
                 <Card className={this.props.classes.card} >
-                    {/*<CardMedia containerStyle={{ paddingBottom: 0 }}*/}
-                        {/*className={this.props.classes.media}*/}
-                        {/*image="/static/video_pic.png"*/}
-                        {/*title={this.props.title}*/}
-                    {/*/>*/}
+                    {isSuccessful ? (
+                        <QRCode size={345} value={absoluteApkUrl} level="L" />
+
+                    ) : (
+                            <p />
+                        )}
+
                     <CardContent>
                         <Typography gutterBottom variant="headline" component="h2">
                             {this.props.title}
@@ -74,12 +83,14 @@ class Task extends React.Component {
                                 Протестировать
                             </Button>
                         ) : (
-                            <Loader/>
-                        )}
+                            <div style={{display: 'flex', justifyContent: 'center'}}>
+                                    <Loader />
+                                </div>
+                            )}
 
                     </CardActions>
-                </Card>
-            </div>
+                </Card >
+            </div >
         );
     }
 }
@@ -88,7 +99,7 @@ class Task extends React.Component {
 //     classes: PropTypes.object.isRequired,
 // };
 
-const mapStateToProps = ({tasks}, ownProps) => ({
+const mapStateToProps = ({ tasks }, ownProps) => ({
     ...tasks.tasks[ownProps.id],
 });
 
