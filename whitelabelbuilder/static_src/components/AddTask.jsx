@@ -39,7 +39,7 @@ class FormDialog extends React.Component {
         isLoading: false,
         title: 'Новое приложение',
         service_id: '',
-        primary_color: '#0373ff',
+        primary_color: '#0EC645',
 
         link: '',
         displayColorPicker: false,
