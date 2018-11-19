@@ -30,7 +30,7 @@ class Header extends React.Component {
                 <AppBar
                     position="static"
                     style={ {
-                        backgroundColor: '#A2D330',
+                        backgroundColor: '#0EC645',
                     } }
                 >
                     <Toolbar>
