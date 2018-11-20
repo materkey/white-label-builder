@@ -7,22 +7,39 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import AddIcon from '@material-ui/icons/Add';
-import {connect} from 'react-redux';
-import {withStyles} from '@material-ui/core/styles/index';
+import { connect } from 'react-redux';
+import { withStyles } from '@material-ui/core/styles/index';
 import apiUrls from '../constants/apiUrls';
-import {bindActionCreators} from 'redux';
-import {createTask} from '../actions/tasks';
-import {loadCurrentUser} from '../actions/users';
+import { bindActionCreators } from 'redux';
+import { createTask } from '../actions/tasks';
+import { loadCurrentUser } from '../actions/users';
 import PropTypes from 'prop-types';
-import {Material} from 'react-color';
+import { Material } from 'react-color';
 import SketchExample from './ColorPicker';
 
+import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
+import { Typography } from '@material-ui/core';
+
+const theme = createMuiTheme({
+    palette: {
+        primary: {
+            light: '#F6F6F6',
+            main: '#0EC645',
+            dark: '#218126',
+            contrastText: '#fff',
+        },
+    },
+});
 
 const styles = theme => ({
     button: {
         position: 'fixed',
         bottom: theme.spacing.unit * 2,
         right: theme.spacing.unit * 2,
+    },
+    label: {
+        paddingTop: '16px',
+        paddingBottom: '8px',
     },
 });
 
@@ -39,24 +56,15 @@ class FormDialog extends React.Component {
         isLoading: false,
         title: 'Новое приложение',
         service_id: '',
-        primary_color: '#0EC645',
-
-        link: '',
-        displayColorPicker: false,
-        color: {
-            r: '241',
-            g: '112',
-            b: '19',
-            a: '1',
-        },
+        primary_color: '#0373FF',
 
     };
 
     handleClickOpen = () => {
-        this.setState({open: true});
+        this.setState({ open: true });
     };
     handleClose = () => {
-        this.setState({open: false});
+        this.setState({ open: false });
     };
     //   }
     handleTitle = (e) => {
@@ -84,7 +92,7 @@ class FormDialog extends React.Component {
         if (!this.props.current_user_id || this.props.current_user_id === null) {
             this.props.loadCurrentUser(apiUrls.currentUser);
         }
-        this.setState({isLoading: true});
+        this.setState({ isLoading: true });
         const newTask = {
             title: this.state.title,
             service_id: this.state.service_id,
@@ -107,10 +115,10 @@ class FormDialog extends React.Component {
             }
             throw new Error('Network response was not ok.');
         }).then((json) => {
-            this.setState({isLoading: false});
+            this.setState({ isLoading: false });
             return this.props.createTask(json);
         }).catch((error) => {
-            this.setState({isLoading: false});
+            this.setState({ isLoading: false });
             console.log(`There has been a problem with your fetch operation: ${error.message}`);
         });
     };
@@ -136,19 +144,22 @@ class FormDialog extends React.Component {
         return (
             <div>
                 {/* <Button onClick={ this.handleClickOpen }>Open form dialog</Button> */}
-                <Button
-                    onClick={this.handleClickOpen}
-                    variant="fab"
-                    color="primary"
-                    aria-label="add"
-                    className={this.props.classes.button}
-                >
-                    <AddIcon/>
-                </Button>
+                <MuiThemeProvider theme={theme}>
+                    <Button
+                        onClick={this.handleClickOpen}
+                        variant="fab"
+                        color="primary"
+                        aria-label="add"
+                        className={this.props.classes.button}
+                    >
+                        <AddIcon />
+                    </Button>
+                </MuiThemeProvider>
                 <Dialog
                     open={this.state.open}
                     onClose={this.handleClose}
                     aria-labelledby="form-dialog-title"
+                    scroll='body'
                 >
 
                     <DialogTitle id="form-dialog-title">Создание приложения для ресторана</DialogTitle>
@@ -169,7 +180,6 @@ class FormDialog extends React.Component {
                                 fullWidth
                             />
                             <TextField
-                                autoFocus
                                 margin="dense"
                                 id="name"
                                 label="Идентификатор ресторана"
@@ -178,17 +188,10 @@ class FormDialog extends React.Component {
                                 onChange={this.handleServiceId}
                                 fullWidth
                             />
-                            <TextField
-                                autoFocus
-                                margin="dense"
-                                id="name"
-                                label="Основной цвет"
-                                type="primary_color"
-                                value={this.state.primary_color}
-                                onChange={this.handlePrimaryColor}
-                                fullWidth
-                            />
-                            <SketchExample callback={this.handlePrimaryColor}/>
+                            <Typography
+                            className={this.props.classes.label}
+                            >Основной цвет</Typography>
+                            <SketchExample callback={this.handlePrimaryColor} />
                         </form>
 
                     </DialogContent>
@@ -207,9 +210,9 @@ class FormDialog extends React.Component {
 }
 
 
-const mapDispatchToProps = dispatch => bindActionCreators({createTask, loadCurrentUser}, dispatch);
+const mapDispatchToProps = dispatch => bindActionCreators({ createTask, loadCurrentUser }, dispatch);
 
-const mapStateToProps = ({users}) => ({
+const mapStateToProps = ({ users }) => ({
     current_user_id: users.current.id,
 });
 

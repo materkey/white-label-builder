@@ -8,9 +8,9 @@ class SketchExample extends React.Component {
     state = {
         displayColorPicker: false,
         color: {
-            r: '241',
-            g: '112',
-            b: '19',
+            r: '3',
+            g: '115',
+            b: '255',
             a: '1',
         },
     };
