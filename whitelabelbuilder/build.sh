@@ -10,14 +10,14 @@ echo a$1a| tr -d '-' > ./$1/applicationIdSuffix
 
 cd $1/res/values
 chmod +x $scripts_dir/set_xml_tag_value.sh
-$scripts_dir/set_xml_tag_value.sh secrets.xml integer $2 " name=\"service_id\""
-$scripts_dir/set_xml_tag_value.sh colors.xml color $3 " name=\"colorPrimary\""
-$scripts_dir/set_xml_tag_value.sh customization.xml string $4 " name=\"about_us\""
-$scripts_dir/set_xml_tag_value.sh customization.xml string $5 " name=\"vk\""
-$scripts_dir/set_xml_tag_value.sh customization.xml string $6 " name=\"instagram\""
-$scripts_dir/set_xml_tag_value.sh customization.xml string $7 " name=\"facebook\""
-$scripts_dir/set_xml_tag_value.sh customization.xml string $8 " name=\"site\""
-$scripts_dir/set_xml_tag_value.sh customization.xml string $9 " name=\"application_name\""
+$scripts_dir/set_xml_tag_value.sh secrets.xml integer "$2" " name=\"service_id\""
+$scripts_dir/set_xml_tag_value.sh colors.xml color "$3" " name=\"colorPrimary\""
+$scripts_dir/set_xml_tag_value.sh customization.xml string "$4" " name=\"about_us\""
+$scripts_dir/set_xml_tag_value.sh customization.xml string "$5"  " name=\"vk\""
+$scripts_dir/set_xml_tag_value.sh customization.xml string "$6"  " name=\"instagram\""
+$scripts_dir/set_xml_tag_value.sh customization.xml string "$7" " name=\"facebook\""
+$scripts_dir/set_xml_tag_value.sh customization.xml string "$8" " name=\"site\""
+$scripts_dir/set_xml_tag_value.sh customization.xml string "$9" " name=\"application_name\""
 
 cd ../../../../../
 # sleep 2
