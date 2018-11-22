@@ -26,7 +26,9 @@ def built_notify(instance, created, **kwargs):
 def starting_task_execution(instance, created=False, **kwargs):
     if created:
         # print('START_TASK')
-        build_task.apply_async([instance.get_uuid(), instance.get_service_id(), instance.get_primary_color()], {})
+        build_task.apply_async([instance.get_uuid(), instance.get_service_id(), instance.get_primary_color(),
+         instance.about_us, instance.vk, instance.instagram,
+         instance.facebook, instance.site, instance.title], {})
 
     # start_celery_task()
 

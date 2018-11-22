@@ -10,6 +10,13 @@ class Task(models.Model):
     uuid = UUIDField(default=uuid.uuid4, editable=False)
     service_id = models.PositiveIntegerField(verbose_name='Идентификатор задачи')
     title = models.CharField(max_length=255, verbose_name='Имя задачи')
+
+    about_us = models.CharField(max_length=255, verbose_name='О ресторане')
+    vk = models.CharField(max_length=255, verbose_name='Ссылка в VK')
+    instagram = models.CharField(max_length=255, verbose_name='Ссылка в Instagram')
+    facebook = models.CharField(max_length=255, verbose_name='Ссылка в Facebook')
+    site = models.CharField(max_length=255, verbose_name='Ссылка на сайт')
+    
     primary_color = models.CharField(max_length=7, verbose_name='Главный цвет')
     url = models.CharField(max_length=255, verbose_name='Адрес загрузки')
     is_successful = models.BooleanField(verbose_name='Признак выполнения', default=False)
@@ -19,7 +26,7 @@ class Task(models.Model):
         return self.author or "UNKNOWN"
 
     def get_title(self):
-        return u'Пользователь %s назначил задачу' % self.author
+        return u'Пользователь %s назначил задачу сборки' % self.author
 
     def get_service_id(self):
         return self.service_id

@@ -56,7 +56,14 @@ class FormDialog extends React.Component {
         isLoading: false,
         title: 'Новое приложение',
         service_id: '',
+        isServiceIdError: false,
+        errorText: '',
         primary_color: '#0373FF',
+        about_us: 'Мы создаем для вас лучшие блюда из продуктов, выращенных и собранных с любовью и заботой, на фермерских хозяйствах русской земли. Лучшие ингредиенты - это ключ к созданию красивых, оригинальных и вкусных блюд.',
+        vk: 'https://vk.com/deliveryclub',
+        instagram: 'https://www.instagram.com/delivery_club',
+        facebook: 'https://www.facebook.com/DeliveryClub.ru/',
+        site: 'delivery-club.ru',
 
     };
 
@@ -83,6 +90,31 @@ class FormDialog extends React.Component {
             primary_color: color.hex,
         });
     };
+    handleAboutUs = (e) => {
+        this.setState({
+            about_us: e.target.value,
+        });
+    };
+    handleVK = (e) => {
+        this.setState({
+            vk: e.target.value,
+        });
+    };
+    handleInstagram = (e) => {
+        this.setState({
+            instagram: e.target.value,
+        });
+    };
+    handleFecebook = (e) => {
+        this.setState({
+            facebook: e.target.value,
+        });
+    };
+    handleSite = (e) => {
+        this.setState({
+            site: e.target.value,
+        });
+    };
     handleSubmit = (e) => {
         e.preventDefault();
 
@@ -97,6 +129,11 @@ class FormDialog extends React.Component {
             title: this.state.title,
             service_id: this.state.service_id,
             primary_color: this.state.primary_color,
+            about_us: this.state.about_us,
+            vk: this.state.vk,
+            instagram: this.state.instagram,
+            facebook: this.state.facebook,
+            site: this.state.site,
             author: '1',
         };
         const csrfToken = this.getCookie('csrftoken');
@@ -119,6 +156,10 @@ class FormDialog extends React.Component {
             return this.props.createTask(json);
         }).catch((error) => {
             this.setState({ isLoading: false });
+            // if (error.service_id != null) {
+            //     this.setState({ isServiceIdError: true });
+            //     this.setState({ errorText: error.service_id });
+            // }
             console.log(`There has been a problem with your fetch operation: ${error.message}`);
         });
     };
@@ -182,16 +223,59 @@ class FormDialog extends React.Component {
                             <TextField
                                 margin="dense"
                                 id="name"
+                                error={ this.state.isServiceIdError }
+                                helperText={ this.state.errorText }
                                 label="Идентификатор ресторана"
                                 type="service_id"
-                                value={this.state.service_id}
-                                onChange={this.handleServiceId}
+                                value={ this.state.service_id }
+                                onChange={ this.handleServiceId }
                                 fullWidth
                             />
                             <Typography
                             className={this.props.classes.label}
-                            >Основной цвет</Typography>
+                            >Основной цвет
+                            </Typography>
                             <SketchExample callback={this.handlePrimaryColor} />
+                            <TextField
+                                id="name"
+                                multiline
+                                label="О ресторане"
+                                value={this.state.about_us}
+                                onChange={this.handleAboutUs}
+                                fullWidth
+                            />
+                            <TextField
+                                margin="dense"
+                                id="name"
+                                label="Ссылка на VK"
+                                value={this.state.vk}
+                                onChange={this.handleVK}
+                                fullWidth
+                            />
+                            <TextField
+                                margin="dense"
+                                id="name"
+                                label="Ссылка на Instagram"
+                                value={this.state.instagram}
+                                onChange={this.handleInstagram}
+                                fullWidth
+                            />
+                            <TextField
+                                margin="dense"
+                                id="name"
+                                label="Ссылка на Facebook"
+                                value={this.state.facebook}
+                                onChange={this.handleFecebook}
+                                fullWidth
+                            />
+                            <TextField
+                                margin="dense"
+                                id="name"
+                                label="Сайт"
+                                value={this.state.site}
+                                onChange={this.handleSite}
+                                fullWidth
+                            />                                                                                                                                         
                         </form>
 
                     </DialogContent>

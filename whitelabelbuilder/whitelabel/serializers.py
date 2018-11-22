@@ -17,4 +17,4 @@ class TaskEditSerializer(ModelSerializer):
 
     class Meta:
         model = Task
-        fields = ('id', 'title', 'is_successful', 'author', 'service_id', 'primary_color')
+        fields = ('id', 'title', 'is_successful', 'author', 'service_id', 'primary_color', 'about_us', 'vk', 'instagram', 'facebook', 'site')

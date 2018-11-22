@@ -20,12 +20,12 @@ temporary="temp_file.temp"
 echo " ">> $xml_file
 
 # Extracting the value from the <$tag> element
-tag_value=$(grep "<$tag$extra>.*<.$tag>" $xml_file | sed -e "s/^.*<$tag/<$tag/" | cut -f2 -d">"| cut -f1 -d"<")
+tag_value=$(grep "<$tag$extra>.*<.$tag>" $xml_file | sed -e "s@^.*<$tag@<$tag@" | cut -f2 -d">"| cut -f1 -d"<")
 
 echo "Found tag value $tag_value..."
 
 # Replacing element value with $new_value
-sed -e "s/<$tag$extra>$tag_value<\/$tag>/<$tag$extra>$new_value<\/$tag>/g" $xml_file > $temporary
+sed -e "s@<$tag$extra>$tag_value<\/$tag>@<$tag$extra>$new_value<\/$tag>@g" $xml_file > $temporary
 
 echo "Changing $tag to $new_value..."
 
