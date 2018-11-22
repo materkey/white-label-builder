@@ -3,6 +3,7 @@ import shlex
 import os
 from celery import shared_task
 from subprocess import call, check_call
+from urllib.parse import quote
 
 # class Bundle:
 #     task_id
