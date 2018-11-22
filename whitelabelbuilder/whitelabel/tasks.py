@@ -18,7 +18,7 @@ def build_task(task_uuid, service_id, primary_color, about_us, vk, instagram, fa
     # print(service_id)
     primary_color = "\\" + primary_color
     call('./build.sh {} {} {} {} {} {} {} {} {}'.format(task_uuid, service_id, primary_color,
-    about_us.encode('unicode_escape'), vk.encode('unicode_escape'), instagram.encode('unicode_escape'), facebook.encode('unicode_escape'), site.encode('unicode_escape'), title.encode('unicode_escape')), shell=True)
+    quote(about_us), vk, instagram, facebook, site, quote(title), shell=True)
     # build_task_gradle.apply_async([task_uuid, service_id], {})
     # print("after generate")
     task = Task.objects.get(uuid=task_uuid)
