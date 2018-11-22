@@ -5,7 +5,7 @@ app_suffix=$(echo a$1a| tr -d '-')
 
 cd $flavors_dir
 mkdir ./$1
-cp -a ../../../defaultFlavor/. ./$1
+cp -a ./defaultFlavor/. ./$1
 echo a$1a| tr -d '-' > ./$1/applicationIdSuffix
 
 cd $1/res/values
