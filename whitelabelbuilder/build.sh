@@ -1,28 +1,32 @@
 files_upload_dir="../../whitelabelbuilder/static/$1"
 flavors_dir="../white-label/white-label/app/whitelabel/"
 scripts_dir="../../../../../../../whitelabelbuilder"
-app_suffix=$(echo a$1a| tr -d '-')
+set_tag_value="$scripts_dir/set_xml_tag_value.sh"
+app_suffix=whitelabel$1dc
 
+# Init flavor
 cd $flavors_dir
-mkdir ./$1
-cp -a ./defaultFlavor/. ./$1
-echo a$1a| tr -d '-' > ./$1/applicationIdSuffix
+cp -a ../../../defaultFlavor/. ./defaultFlavor
+echo $app_suffix | tr -d '-' > ./defaultFlavor/applicationIdSuffix
+cat ./defaultFlavor/applicationIdSuffix
 
-cd $1/res/values
-chmod +x $scripts_dir/set_xml_tag_value.sh
-$scripts_dir/set_xml_tag_value.sh secrets.xml integer "$2" " name=\"service_id\""
-$scripts_dir/set_xml_tag_value.sh colors.xml color $3 " name=\"colorPrimary\""
-$scripts_dir/set_xml_tag_value.sh customization.xml string "$4" " name=\"about_us\""
-$scripts_dir/set_xml_tag_value.sh customization.xml string "$5"  " name=\"vk\""
-$scripts_dir/set_xml_tag_value.sh customization.xml string "$6"  " name=\"instagram\""
-$scripts_dir/set_xml_tag_value.sh customization.xml string "$7" " name=\"facebook\""
-$scripts_dir/set_xml_tag_value.sh customization.xml string "$8" " name=\"site\""
-$scripts_dir/set_xml_tag_value.sh customization.xml string "$9" " name=\"application_name\""
+# Customize flavor
+cd defaultFlavor/res/values
+chmod +x $set_tag_value
+$set_tag_value secrets.xml integer "$2" " name=\"service_id\""
+$set_tag_value colors.xml color $3 " name=\"colorPrimary\""
+$set_tag_value customization.xml string "$4" " name=\"about_us\""
+$set_tag_value customization.xml string "$5" " name=\"vk\""
+$set_tag_value customization.xml string "$6" " name=\"instagram\""
+$set_tag_value customization.xml string "$7" " name=\"facebook\""
+$set_tag_value customization.xml string "$8" " name=\"site\""
+$set_tag_value customization.xml string "$9" " name=\"application_name\""
 
+# Build
 cd ../../../../../
-# sleep 2
 ./gradlew assembleDebug -q
 
+# Clean and copy APK
 mkdir $files_upload_dir
-cp ./app/build/outputs/apk/$1/debug/app-$1-debug.apk $files_upload_dir/whitelabel.apk
-rm -rf ./app/whitelabel/$1
+mv ./app/build/outputs/apk/defaultFlavor/debug/app-defaultFlavor-debug.apk $files_upload_dir/whitelabel.apk
+rm -rf ./app/whitelabel/defaultFlavor
