@@ -1,3 +1,6 @@
+# 1 - uuid, 2 - service_id, 3 - colorPrimary
+# 4 - about_us, 5 - vk, 6 - instagram
+# 7 - facebook, 8 - site, 9 - application_name
 files_upload_dir="../../whitelabelbuilder/static/$1"
 flavors_dir="../white-label/white-label/app/whitelabel/"
 scripts_dir="../../../../../../../whitelabelbuilder"

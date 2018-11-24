@@ -3,9 +3,10 @@ import {CREATE_USER, ERROR_USER_LOADING, START_USER_LOADING, SUCCESS_USER_LOADIN
 
 
 const initialState = {
+    isAuthenticated: null,
     users: {},
     isLoading: false,
-    current: {},
+    current: {}
 };
 
 
@@ -13,7 +14,7 @@ export default function users(store = initialState, action) {
     let newStore = store;
     if (action.payload && action.payload.entities && action.payload.entities.users) {
         newStore = update(store, {
-            users: { $merge: action.payload.entities.users },
+            users: {$merge: action.payload.entities.users}
 
         });
     }
@@ -21,18 +22,20 @@ export default function users(store = initialState, action) {
     switch (action.type) {
         case START_USER_LOADING: {
             return update(newStore, {
-                isLoading: { $set: true },
+                isLoading: {$set: true}
             });
         }
         case SUCCESS_USER_LOADING: {
             return update(newStore, {
-                isLoading: { $set: false },
-                current: { $set: action.payload },
+                isAuthenticated: {$set: true},
+                isLoading: {$set: false},
+                current: {$set: action.payload}
             });
         }
         case ERROR_USER_LOADING: {
             return update(newStore, {
-                isLoading: { $set: false },
+                isAuthenticated: {$set: false},
+                isLoading: {$set: false}
             });
         }
         default:

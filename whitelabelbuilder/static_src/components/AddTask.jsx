@@ -7,18 +7,18 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import AddIcon from '@material-ui/icons/Add';
-import { connect } from 'react-redux';
-import { withStyles } from '@material-ui/core/styles/index';
+import {connect} from 'react-redux';
+import {withStyles} from '@material-ui/core/styles/index';
 import apiUrls from '../constants/apiUrls';
-import { bindActionCreators } from 'redux';
-import { createTask } from '../actions/tasks';
-import { loadCurrentUser } from '../actions/users';
+import {bindActionCreators} from 'redux';
+import {createTask} from '../actions/tasks';
+import {loadCurrentUser} from '../actions/users';
 import PropTypes from 'prop-types';
-import { Material } from 'react-color';
+import {Material} from 'react-color';
 import SketchExample from './ColorPicker';
 
-import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
-import { Typography } from '@material-ui/core';
+import {MuiThemeProvider, createMuiTheme} from '@material-ui/core/styles';
+import {Typography} from '@material-ui/core';
 
 const theme = createMuiTheme({
     palette: {
@@ -181,10 +181,13 @@ class FormDialog extends React.Component {
     }
 
     render() {
-
+        if (!this.props.current_user_id || this.props.current_user_id === null) {
+            this.props.loadCurrentUser(apiUrls.currentUser);
+        }
         return (
             <div>
                 {/* <Button onClick={ this.handleClickOpen }>Open form dialog</Button> */}
+                {this.props.is_authenticated &&
                 <MuiThemeProvider theme={theme}>
                     <Button
                         onClick={this.handleClickOpen}
@@ -193,9 +196,9 @@ class FormDialog extends React.Component {
                         aria-label="add"
                         className={this.props.classes.button}
                     >
-                        <AddIcon />
+                        <AddIcon/>
                     </Button>
-                </MuiThemeProvider>
+                </MuiThemeProvider>}
                 <Dialog
                     open={this.state.open}
                     onClose={this.handleClose}
@@ -223,19 +226,19 @@ class FormDialog extends React.Component {
                             <TextField
                                 margin="dense"
                                 id="name"
-                                error={ this.state.isServiceIdError }
-                                helperText={ this.state.errorText }
+                                error={this.state.isServiceIdError}
+                                helperText={this.state.errorText}
                                 label="Идентификатор ресторана"
                                 type="service_id"
-                                value={ this.state.service_id }
-                                onChange={ this.handleServiceId }
+                                value={this.state.service_id}
+                                onChange={this.handleServiceId}
                                 fullWidth
                             />
                             <Typography
-                            className={this.props.classes.label}
+                                className={this.props.classes.label}
                             >Основной цвет
                             </Typography>
-                            <SketchExample callback={this.handlePrimaryColor} />
+                            <SketchExample callback={this.handlePrimaryColor}/>
                             <TextField
                                 id="name"
                                 multiline
@@ -294,10 +297,11 @@ class FormDialog extends React.Component {
 }
 
 
-const mapDispatchToProps = dispatch => bindActionCreators({ createTask, loadCurrentUser }, dispatch);
+const mapDispatchToProps = dispatch => bindActionCreators({createTask, loadCurrentUser}, dispatch);
 
-const mapStateToProps = ({ users }) => ({
+const mapStateToProps = ({users}) => ({
     current_user_id: users.current.id,
+    is_authenticated: users.isAuthenticated,
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(FormDialog));

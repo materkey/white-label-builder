@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.contrib.auth import logout
 from rest_framework.decorators import list_route
 from rest_framework.exceptions import AuthenticationFailed
@@ -6,28 +6,27 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
 
-from core.models import User
-from core.permissions import IsOwnerOrReadOnly
-from core.serializers import UserReadSerializer, UserEditSerializer
+from .models import User
+from .permissions import IsOwnerOrReadOnly
+from .serializers import UserReadSerializer, UserEditSerializer
 
 
 def logout_view(request):
     logout(request)
-    user = request.user
 
-    return render(request, 'core/login.html', {'user': user})
-
-
-def login_view(request):
-    user = request.user
-
-    return render(request, 'core/login.html', {'user': user})
+    return redirect("/")
 
 
-def cabinet_view(request):
-    user = request.user
-
-    return render(request, 'core/cabinet.html', {'user': user})
+# def login_view(request):
+#     user = request.user
+#
+#     return render(request, 'core/login.html', {'user': user})
+#
+#
+# def cabinet_view(request):
+#     user = request.user
+#
+#     return render(request, 'core/cabinet.html', {'user': user})
 
 
 class UserViewSet(ModelViewSet):

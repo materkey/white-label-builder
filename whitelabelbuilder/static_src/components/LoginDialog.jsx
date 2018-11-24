@@ -13,10 +13,11 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import Dialog from '@material-ui/core/Dialog';
 import blue from '@material-ui/core/colors/blue';
 import vkLogo from '../../static/vk_icon.svg';
-import { Link } from 'react-router-dom';
+import {Link} from 'react-router-dom';
+import {connect} from "react-redux";
 
 const methods = [
-    { name: 'Войти через ВКонтакте', logo: vkLogo, url: '/social/login/vk-oauth2/' },
+    {name: 'Войти через ВКонтакте', logo: vkLogo, url: '/social/login/vk-oauth2/'},
 ];
 const styles = {
     avatar: {
@@ -40,20 +41,20 @@ class SimpleDialog extends React.Component {
         } = this.props;
         const i = 0;
         return (
-            <Dialog onClose={ this.handleClose } aria-labelledby="simple-dialog-title" { ...other }>
+            <Dialog onClose={this.handleClose} aria-labelledby="simple-dialog-title" {...other}>
                 <DialogTitle id="simple-dialog-title">Логин</DialogTitle>
                 <div>
                     <List>
                         {methods.map(method => (
-                            <Button key={ method.name } href="/social/login/vk-oauth2/">
+                            <Button key={method.name} href="/social/login/vk-oauth2/">
                                 <ListItem
                                     button
-                                    onClick={ () => this.handleListItemClick(method) }
+                                    onClick={() => this.handleListItemClick(method)}
                                 >
                                     <ListItemAvatar>
-                                        <Avatar src={ method.logo } />
+                                        <Avatar src={method.logo}/>
                                     </ListItemAvatar>
-                                    <ListItemText primary={ method.name } />
+                                    <ListItemText primary={method.name}/>
                                 </ListItem>
                             </Button>
                         ))}
@@ -85,25 +86,41 @@ class SimpleDialogDemo extends React.Component {
     };
 
     handleClose = (value) => {
-        this.setState({ open: false });
+        this.setState({open: false});
     };
 
     render() {
+        const isLoggedIn = this.props.is_authenticated;
+
         return (
             <div>
-                <Button
-                    onClick={ this.handleClickOpen }
-                    color="inherit"
-                >Войти
-                </Button>
-                <SimpleDialogWrapped
-                    selectedValue={ this.state.selectedValue }
-                    open={ this.state.open }
-                    onClose={ this.handleClose }
-                />
+                {isLoggedIn ? (
+                    <Button
+                        href="/accounts/logout"
+                        color="inherit"
+                    >Выйти
+                    </Button>
+                ) : (<div>
+                        <Button
+                            onClick={this.handleClickOpen}
+                            color="inherit"
+                        >Войти
+                        </Button>
+                        < SimpleDialogWrapped
+                            selectedValue={this.state.selectedValue}
+                            open={this.state.open}
+                            onClose={this.handleClose}
+                        />
+                    </div>
+                )}
+
             </div>
         );
     }
 }
 
-export default SimpleDialogDemo;
+const mapStateToProps = ({users}) => ({
+    is_authenticated: users.isAuthenticated,
+});
+
+export default connect(mapStateToProps)(SimpleDialogDemo);
