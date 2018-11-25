@@ -7,18 +7,20 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import AddIcon from '@material-ui/icons/Add';
-import {connect} from 'react-redux';
-import {withStyles} from '@material-ui/core/styles/index';
+import { connect } from 'react-redux';
+import { withStyles } from '@material-ui/core/styles/index';
 import apiUrls from '../constants/apiUrls';
-import {bindActionCreators} from 'redux';
-import {createTask} from '../actions/tasks';
-import {loadCurrentUser} from '../actions/users';
+import { bindActionCreators } from 'redux';
+import { createTask } from '../actions/tasks';
+import { loadCurrentUser } from '../actions/users';
 import PropTypes from 'prop-types';
-import {Material} from 'react-color';
+import { Material } from 'react-color';
 import SketchExample from './ColorPicker';
+import Grid from '@material-ui/core/Grid';
+import CloudUploadIcon from '@material-ui/icons/CloudUpload';
 
-import {MuiThemeProvider, createMuiTheme} from '@material-ui/core/styles';
-import {Typography} from '@material-ui/core';
+import { createMuiTheme, MuiThemeProvider } from '@material-ui/core/styles';
+import { Typography } from '@material-ui/core';
 
 const theme = createMuiTheme({
     palette: {
@@ -40,6 +42,18 @@ const styles = theme => ({
     label: {
         paddingTop: '16px',
         paddingBottom: '8px',
+    },
+    paper: {
+        paddingTop: '16px',
+        paddingBottom: '8px',
+        textAlign: 'center',
+        color: theme.palette.text.secondary,
+    },
+    rightIcon: {
+        marginLeft: theme.spacing.unit,
+    },
+    upload: {
+        width: '98%',
     },
 });
 
@@ -64,7 +78,8 @@ class FormDialog extends React.Component {
         instagram: 'https://www.instagram.com/delivery_club',
         facebook: 'https://www.facebook.com/DeliveryClub.ru/',
         site: 'delivery-club.ru',
-
+        logo: null,
+        about_us_photo: null,
     };
 
     handleClickOpen = () => {
@@ -121,47 +136,61 @@ class FormDialog extends React.Component {
         if (this.state.isLoading) {
             return;
         }
-        if (!this.props.current_user_id || this.props.current_user_id === null) {
-            this.props.loadCurrentUser(apiUrls.currentUser);
-        }
         this.setState({ isLoading: true });
-        const newTask = {
-            title: this.state.title,
-            service_id: this.state.service_id,
-            primary_color: this.state.primary_color,
-            about_us: this.state.about_us,
-            vk: this.state.vk,
-            instagram: this.state.instagram,
-            facebook: this.state.facebook,
-            site: this.state.site,
-            author: '1',
-        };
+
+        let formData = new FormData();
+        formData.append('title', this.state.title);
+        formData.append('service_id', this.state.service_id);
+        formData.append('primary_color', this.state.primary_color);
+        formData.append('about_us', this.state.about_us);
+        formData.append('vk', this.state.vk);
+        formData.append('instagram', this.state.instagram);
+        formData.append('facebook', this.state.facebook);
+        formData.append('site', this.state.site);
+        if (this.state.logo != null) {
+            formData.append('logo', this.state.logo);
+        }
+        if (this.state.about_us_photo != null) {
+            formData.append('about_us_photo', this.state.about_us_photo);
+        }
+        formData.append('author', '1'); //TODO: author set
         const csrfToken = this.getCookie('csrftoken');
         fetch(apiUrls.task, {
             method: 'POST',
             credentials: 'include',
-            body: JSON.stringify(newTask),
+            body: formData,
             headers: {
-                'content-type': 'application/json',
                 'X-CSRFToken': csrfToken,
             },
-        }).then((response) => {
-            if (response.ok) {
-                this.handleClose();
-                return response.json();
-            }
-            throw new Error('Network response was not ok.');
-        }).then((json) => {
-            this.setState({ isLoading: false });
-            return this.props.createTask(json);
-        }).catch((error) => {
-            this.setState({ isLoading: false });
-            // if (error.service_id != null) {
-            //     this.setState({ isServiceIdError: true });
-            //     this.setState({ errorText: error.service_id });
-            // }
-            console.log(`There has been a problem with your fetch operation: ${error.message}`);
-        });
+        })
+            .then((response) => {
+                if (response.ok) {
+                    this.handleClose();
+                    return response.json();
+                }
+                throw new Error('Network response was not ok.');
+            })
+            .then((json) => {
+                this.setState({ isLoading: false });
+                return this.props.createTask(json);
+            })
+            .catch((error) => {
+                this.setState({ isLoading: false });
+                // if (error.service_id != null) {
+                //     this.setState({ isServiceIdError: true });
+                //     this.setState({ errorText: error.service_id });
+                // }
+                console.log(`There has been a problem with your fetch operation: ${error.message}`);
+            });
+    };
+
+    handleChangeLogo = (e) => {
+        this.setState({ logo: e.target.files[0] });
+        console.log(e.target.files[0]);
+    };
+    handleChangeAboutUsPhoto = (e) => {
+        this.setState({ about_us_photo: e.target.files[0] });
+        console.log(e.target.files[0]);
     };
 
     getCookie(name) {
@@ -278,7 +307,41 @@ class FormDialog extends React.Component {
                                 value={this.state.site}
                                 onChange={this.handleSite}
                                 fullWidth
-                            />                                                                                                                                         
+                            />
+                            <Grid container>
+                                <Grid xs={12} sm={6} className={this.props.classes.paper}>
+                                    <input
+                                        style={{ display: 'none' }}
+                                        id="raised-button-file-logo"
+                                        multiple={false}
+                                        accept=".jpg,.jpeg,.png"
+                                        type="file"
+                                        onChange={this.handleChangeLogo}
+                                    />
+                                    <label htmlFor="raised-button-file-logo">
+                                        <Button variant="outlined" component="span" className={this.props.classes.upload}>
+                                            Логотип
+                                            <CloudUploadIcon className={this.props.classes.rightIcon}/>
+                                        </Button>
+                                    </label>
+                                </Grid>
+                                <Grid xs={12} sm={6} className={this.props.classes.paper}>
+                                    <input
+                                        accept=".jpg,.jpeg,.png"
+                                        style={{ display: 'none' }}
+                                        id="raised-button-file-about-us-photo"
+                                        multiple
+                                        type="file"
+                                        onChange={this.handleChangeAboutUsPhoto}
+                                    />
+                                    <label htmlFor="raised-button-file-about-us-photo">
+                                        <Button variant="outlined" component="span" className={this.props.classes.upload}>
+                                            Фото ресторана
+                                            <CloudUploadIcon className={this.props.classes.rightIcon}/>
+                                        </Button>
+                                    </label>
+                                </Grid>
+                            </Grid>
                         </form>
 
                     </DialogContent>
@@ -297,9 +360,12 @@ class FormDialog extends React.Component {
 }
 
 
-const mapDispatchToProps = dispatch => bindActionCreators({createTask, loadCurrentUser}, dispatch);
+const mapDispatchToProps = dispatch => bindActionCreators({
+    createTask,
+    loadCurrentUser
+}, dispatch);
 
-const mapStateToProps = ({users}) => ({
+const mapStateToProps = ({ users }) => ({
     current_user_id: users.current.id,
     is_authenticated: users.isAuthenticated,
 });

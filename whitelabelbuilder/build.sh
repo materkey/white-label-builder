@@ -10,6 +10,7 @@ app_suffix=whitelabel$1dc
 # Init flavor
 cd $flavors_dir
 cp -a ../../../defaultFlavor/. ./defaultFlavor
+rsync -a ../../../res/ ./defaultFlavor/res/
 echo $app_suffix | tr -d '-' > ./defaultFlavor/applicationIdSuffix
 cat ./defaultFlavor/applicationIdSuffix
 
@@ -33,3 +34,4 @@ cd ../../../../../
 mkdir $files_upload_dir
 mv ./app/build/outputs/apk/defaultFlavor/debug/app-defaultFlavor-debug.apk $files_upload_dir/whitelabel.apk
 rm -rf ./app/whitelabel/defaultFlavor
+rm -rf ../res

@@ -2,7 +2,6 @@ import { CALL_API, getJSON } from 'redux-api-middleware';
 import { normalize } from 'normalizr';
 
 import { task } from './../utils/schemas';
-import {CHANGE_ROUTE} from "./routes";
 
 export const START_TASK_LOADING = 'START_TASK_LOADING';
 export const SUCCESS_TASK_LOADING = 'SUCCESS_TASK_LOADING';

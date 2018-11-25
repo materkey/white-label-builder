@@ -16,11 +16,14 @@ class Task(models.Model):
     instagram = models.CharField(max_length=255, verbose_name='Ссылка в Instagram')
     facebook = models.CharField(max_length=255, verbose_name='Ссылка в Facebook')
     site = models.CharField(max_length=255, verbose_name='Ссылка на сайт')
-    
+
     primary_color = models.CharField(max_length=7, verbose_name='Главный цвет')
     url = models.CharField(max_length=255, verbose_name='Адрес загрузки')
     is_successful = models.BooleanField(verbose_name='Признак выполнения', default=False)
     author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.DO_NOTHING, verbose_name='Автор')
+
+    logo = models.ImageField(upload_to='logos', blank=True, null=True)
+    about_us_photo = models.ImageField(upload_to='about_us_photos', blank=True, null=True)
 
     def get_author(self):
         return self.author or "UNKNOWN"
