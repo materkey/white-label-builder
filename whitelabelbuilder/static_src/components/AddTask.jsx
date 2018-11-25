@@ -186,11 +186,9 @@ class FormDialog extends React.Component {
 
     handleChangeLogo = (e) => {
         this.setState({ logo: e.target.files[0] });
-        console.log(e.target.files[0]);
     };
     handleChangeAboutUsPhoto = (e) => {
         this.setState({ about_us_photo: e.target.files[0] });
-        console.log(e.target.files[0]);
     };
 
     getCookie(name) {

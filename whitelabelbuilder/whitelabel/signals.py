@@ -18,7 +18,7 @@ def built_notify(instance, created, **kwargs):
                                     "url": instance.url,
                                     "is_successful": instance.is_successful,
                                 }})
-
+        client.send()
 
 @receiver(post_save, sender=Task)
 def starting_task_execution(instance, created=False, **kwargs):
