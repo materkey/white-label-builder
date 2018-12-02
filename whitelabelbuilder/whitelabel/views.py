@@ -7,8 +7,8 @@ from whitelabel.serializers import TaskReadSerializer, TaskEditSerializer
 class TaskViewSet(ModelViewSet):
     def get_queryset(self):
         qs = super().get_queryset()
-        if not self.request.user.is_authenticated:
-            return []
+        # if not self.request.user.is_authenticated:
+        #     return []
         return qs
 
     queryset = Task.objects.all()
