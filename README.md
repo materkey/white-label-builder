@@ -1,4 +1,30 @@
-## TODO: Containerize
+## White-label builder
+Customized Android apps builder with scalability in mind
+
+[Video Demonstration](https://youtu.be/bTh_kyXznEk?t=6029)
+![Stack](https://i.ibb.co/ysfHqgh/stack.png)
+Stack:
+- [Centrifugo](https://centrifugal.github.io/centrifugo/) - [🐙](https://github.com/centrifugal/centrifugo) - Scalable real-time messaging server in language-agnostic way. Set up once and forever. Allow users of White-label builder to get build results faster.
+- [Celery](https://docs.celeryproject.org/en/stable/) - [🐙](https://github.com/celery/celery) - Distributed Task Queue to scale build workers easily.
+- [Redis](https://redis.io/) - [🐙](https://github.com/redis/redis) - In-memory database that persists on disk.
+- [ReactJS](https://reactjs.org/) - [🛠️](https://stackshare.io/react) - [🐙](https://github.com/facebook/react) - A declarative, efficient, and flexible JavaScript library for building user interfaces.
+- [Redux](https://redux.js.org/) - [🛠](https://stackshare.io/reduxjs) - [🐙](https://github.com/reduxjs/redux) - Predictable state container for JavaScript apps.
+- [Django](https://www.djangoproject.com/) - [🛠](https://stackshare.io/django) - [🐙](https://github.com/django/django) - The Web framework for perfectionists with deadlines.
+- [Webpack](https://webpack.js.org/) - [🛠️](https://stackshare.io/webpack) - [🐙](https://github.com/webpack/webpack) - A static module bundler for modern JavaScript applications.
+- [Babel](https://babeljs.io/) - [🛠️](https://stackshare.io/babel) - [🐙](https://github.com/babel/babel) - A JavaScript compiler; use next generation JavaScript, today.
+- [Node.js](https://nodejs.org/) - [🛠️](https://stackshare.io/nodejs) - [🐙](https://github.com/nodejs/node) - A JavaScript runtime built on Chrome's V8 JavaScript engine.
+- [Material UI](https://material-ui.com/) - [🛠️](https://stackshare.io/material-ui) - [🐙](https://github.com/mui-org/material-ui) - React components that implement Google's Material Design.
+- [Python](https://www.python.org/) - [🛠️](https://stackshare.io/python) - [🐙](https://github.com/python/cpython) - A programming language that lets you work quickly.
+
+Usage:
+- User customize app using web form and create build task
+- Server emit task in queue for build workers
+- Worker create build flavor, edit app resources and start gradle build
+- After build user get QR code to download apk
+
+Android App repo for this demo `materkey/white-label.git` is private because it provides Delivery Club API details. Reproducing apk build without android app repository require modifications to existing code. Making it universal solution for arbitrary app is a future plan.
+
+## TODO: Containerize and fix vulnerabilities
 
 ## Not Quick Start Guide
 1. `git clone git@github.com:materkey/white-label-builder.git` 
