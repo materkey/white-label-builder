@@ -1,3 +1,5 @@
+## TODO: Containerize
+
 ## Not Quick Start Guide
 1. `git clone git@github.com:materkey/white-label-builder.git` 
 2. `cd white-label-builder/`
