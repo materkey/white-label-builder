@@ -3,7 +3,7 @@ psycopg2-binary==2.7.4
 django-debug-toolbar==1.9.1
 social-auth-app-django==2.1.0
 social-auth-core==1.7.0
-djangorestframework==3.7.7
+djangorestframework==3.11.2
 django-webpack-loader==0.6.0
 gunicorn==19.9.0
 cent==2.1.0
